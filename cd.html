@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Median Household Incomes in Canada</title>
+    <link rel="stylesheet" href="cdstyle.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="cd.js"></script>
+
+    <style>
+        #map{
+            height: 80%;
+            width: 90%;
+            top: 7.5%;
+            left: 5%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="main">
+            <u1>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="refernces.html">References</a></li>
+            </u1>
+        </div>
+        
+    </header>
+
+    <div id="map"></div>
+</body>
+</html>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin="">
+</script>
+
+<script>
+    //view map
+    var map = L.map('map').setView([50, -85], 5);
+
+    //tile layer
+    var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    //calls for geoJson file 
+    L.geoJson(cdJson).addTo(map);
+
+    //choropleth
+    function getColor(d) {
+        return  d > 121000 ? '#00441b' :
+                d > 106200  ? '#006d2c' :
+                d > 93400  ? '#238b45' :
+                d > 87000  ? '#41ae76' :
+                d > 82000   ? '#66c2a4' :
+                d > 78700  ? '#99d8c9' :
+                d > 70400 ? '#ccece6':
+                '#e5f5f9';
+    }
+
+    function style(features) {
+        return {
+            fillColor: getColor(features.properties.Median),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+
+    L.geoJson(cdJson, {style: style}).addTo(map);
+
+    function highlightFeature(e) {
+        var layer = e.target;
+
+        layer.setStyle({
+            weight: 5,
+            color: 'black',
+            dashArray: '',
+            fillOpacity: 0.7
+        });
+
+        info.update(layer.feature.properties);
+
+        layer.bringToFront();
+    }
+    
+    function resetHighlight(e) {
+        geojson.resetStyle(e.target);
+        info.update();
+    }
+
+    var geojson;
+    geojson = L.geoJson(cdJson);
+
+    function zoomToFeature(e) {
+        map.fitBounds(e.target.getBounds());
+    }
+
+    function onEachFeature(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+            click: zoomToFeature
+        });
+    }
+
+    geojson = L.geoJson(cdJson, {
+        style: style,
+        onEachFeature: onEachFeature
+    }).addTo(map);
+
+    //control
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+
+    // method that we will use to update the control based on feature properties passed
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>Median Household Income Across Ontario Census Divisions (CD)</h4>' +  (props ?
+            '<b>' + props.CDNAME + '</b><br />' + '$' + props.Median
+            : 'Hover over a census division');   
+    };
+
+
+info.addTo(map);
+
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 70400, 78700, 82000, 87000, 93400, 106200],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(map);
+</script>

@@ -1,0 +1,79 @@
+*{
+    width: auto;
+    margin: 0px;
+    padding: 0px;
+    font-family: Century;
+}
+
+body{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(bg.jpg);
+    background-size: cover;
+    background-position: top;
+    height: 100vh;
+    min-height: 100%;
+}
+
+u1{
+    float: none;
+    list-style-type: none;
+    margin-top: 30px;
+    min-height: 400px;
+    margin-right: 10px;
+    font-size: 17px;
+}
+
+u1 li{
+    display: inline-block;
+}
+
+u1 li a{
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid transparent;
+    transition: 0.5 ease;
+}
+
+u1 li a:hover{
+    background-color: #fff;
+    color: #000
+}
+
+u1 li.active a{
+    background-color: #fff;
+    color: #000;
+}
+
+
+
+
+
+.Provinces{
+    position: absolute;
+    text-align: center;
+    top: 80%;
+    left: 20%;
+}
+
+.CD{
+    position: absolute;
+    text-align: center;
+    top: 80%;
+    left: 63.5%;
+}
+
+.btn{
+    border: 1px solid #fff;
+    padding: 5px 20px;
+    color: #fff;
+    transition: 0.5 ease;
+    font-size: 35px;
+    text-decoration: none;
+}
+
+.btn:hover{
+    background-color:#fff;
+    color: #000;
+}
+
+

@@ -1,0 +1,80 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: Century;
+}
+
+body{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)), url(bg.jpg);
+    background-size: cover;
+    background-position: top;
+    height: 100vh;
+    min-height: 100px;
+}
+
+u1{
+    float: none;
+    list-style-type: none;
+    margin-top: 30px;
+    min-height: 400px;
+    margin-right: 10px;
+    font-size: 17px;
+}
+
+u1 li{
+    display: inline-block;
+}
+
+u1 li a{
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 20px;
+    border: 1px solid transparent;
+    transition: 0.5 ease;
+}
+
+u1 li a:hover{
+    background-color: #fff;
+    color: #000
+}
+
+u1 li.active a{
+    background-color: #fff;
+    color: #000;
+}
+
+#box{
+    top: 30%;
+    left: 5%;
+    height: 62.5%;
+    width: 90%;
+    background-color: #0000009a;
+    position: absolute;
+}
+
+.title{
+    position: relative;
+    text-align: center;
+    top: 10%;
+}
+
+.title h1{
+    color: #fff;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.citations{
+    position: absolute;
+    text-align: center;
+    top: 13%;
+    right: 8%;
+    left: 8%;
+}
+
+.citations p{
+    color: #fff;
+    font-size: 12px;
+    font-family:'Times New Roman', Times, serif;
+    line-height: 70px;
+}
